@@ -2,11 +2,11 @@ function getComputerChoice() {
   let computerChoice = Math.floor(Math.random() * 3);
   switch (computerChoice) {
     case 0:
-      return "Rock";
+      return "rock";
     case 1:
-      return "Paper";
+      return "paper";
     default:
-      return "Scissors";
+      return "scissors";
   }
 }
 
