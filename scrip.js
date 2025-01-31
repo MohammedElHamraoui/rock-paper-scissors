@@ -1,6 +1,24 @@
+function playRound(humanChoice, computerChoice) {
+  if (humanChoice === computerChoice) {
+    console.log("It's a Tie");
+  } else if (humanChoice === "rock" && computerChoice === "scissors") {
+    console.log("You win! Rock beats Scissors");
+    humanScore++;
+  } else if (humanChoice === "paper" && computerChoice === "rock") {
+    console.log("You win! Paper beats Rock");
+    humanScore++;
+  } else if (humanChoice === "scissor" && computerChoice === "paper") {
+    console.log("You win! Scissors beats Paper");
+    humanScore++;
+  } else {
+    console.log(`JComputer win! ${computerChoice} beats ${humanChoice}`);
+    computerScore++;
+  }
+}
+
 function getHumanChoice() {
   let humanChoice = prompt(
-    "What's your choice: \nR for rock \nP for paper \nS for scissors"
+    "What's your choice: \nR/r for rock \nP/p for paper \nS/s for scissors"
   );
   switch (humanChoice.toLowerCase()) {
     case "r":
@@ -24,6 +42,11 @@ function getComputerChoice() {
   }
 }
 
-let humanChoice = getHumanChoice();
+let humanScore = 0;
+let computerScore = 0;
 
-let computerChoice = getComputerChoice();
+const humanSelection = getHumanChoice();
+
+const computerSelection = getComputerChoice();
+
+playRound(humanSelection, computerSelection);
