@@ -1,55 +1,41 @@
 let humanScore = 0,
   computerScore = 0;
 
-function playGame() {
-  let humanSelection, computerSelection;
-  for (let index = 0; index < 5; index++) {
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-  }
-  console.log(`Final Score — You: ${humanScore}, Computer: ${computerScore}`);
-  console.log(
-    humanScore > computerScore ? "You won the game!" : "Computer won the game!"
-  );
+const result = document.querySelector("#result");
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function playRound(humanChoice, computerChoice) {
-  if (humanChoice === computerChoice) {
-    console.log("It's a Tie");
-  } else if (humanChoice === "rock" && computerChoice === "scissors") {
-    console.log("You win! Rock beats Scissors");
-    humanScore++;
-  } else if (humanChoice === "paper" && computerChoice === "rock") {
-    console.log("You win! Paper beats Rock");
-    humanScore++;
-  } else if (humanChoice === "scissors" && computerChoice === "paper") {
-    console.log("You win! Scissors beats Paper");
-    humanScore++;
-  } else {
-    console.log(
-      `Computer win! ${
-        computerChoice.at(0).toUpperCase() + computerChoice.slice(1)
-      } beats ${humanChoice.at(0).toUpperCase() + humanChoice.slice(1)}`
-    );
-    computerScore++;
-  }
-}
+  if (humanScore === 5 || computerScore === 5) return;
 
-function getHumanChoice() {
-  let humanChoice;
-  do {
-    humanChoice = prompt(
-      "What's your choice: \nR/r for rock \nP/p for paper \nS/s for scissors \n"
-    );
-  } while (!["r", "p", "s"].includes(humanChoice?.toLowerCase()));
-  switch (humanChoice.toLowerCase()) {
-    case "r":
-      return "rock";
-    case "p":
-      return "paper";
-    default:
-      return "scissors";
+  let roundMessage = "";
+
+  if (humanChoice === computerChoice) {
+    roundMessage = "It's a Tie";
+  } else if (
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
+  ) {
+    humanScore++;
+    roundMessage = `You win! ${capitalize(humanChoice)} beats ${capitalize(
+      computerChoice
+    )}`;
+  } else {
+    computerScore++;
+    roundMessage = `Computer win! ${capitalize(
+      computerChoice
+    )} beats ${capitalize(humanChoice)}`;
+  }
+
+  result.innerHTML = `<span>${roundMessage}</span><br>Score: ${humanScore} - ${computerScore}`;
+
+  if (humanScore === 5) {
+    result.innerHTML += `<br><strong>You Won! Play Again?</strong>`;
+  } else if (computerScore === 5) {
+    result.innerHTML += `<br><strong>You lost! Play Again?</strong>`;
   }
 }
 
@@ -65,6 +51,11 @@ function getComputerChoice() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  playGame();
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    let humanChoice = button.textContent.toLowerCase();
+    let computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+  });
 });
